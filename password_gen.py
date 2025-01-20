@@ -1,5 +1,6 @@
 # Creating a password generator
-import string, random
+import string
+from random import choice
 from tkinter import *
 
 class App:
@@ -12,6 +13,7 @@ class App:
         #component creation
         self.label()
         self.entry()
+        self.button()
 
     def label(self):
         label_title = Label(self.windows, text="Welcome to my password generator", font=("Courrier", 20), bg="beige", fg="black")
@@ -21,28 +23,20 @@ class App:
         self.password_entry = Entry(self.windows, font=("courier", 25), bg="white", fg="black", width=30, relief="solid")
         self.password_entry.pack(pady=50)
 
+    def button(self):
+        password_generator = Button(self.windows, text="Generate password", font=("Courier", 12), bg="white", fg="black", width=25, command=self.function)
+        password_generator.pack()
+
     def function(self):
 
         possible_combos = string.ascii_letters + string.punctuation + string.digits
+        password=[]
 
-        is_running = True
+        for i in range(12):
+            password+=choice(possible_combos)
 
-        while is_running:
-
-            user = input("Enter 'y' to generate password or 'n' to quit: ").lower()
-
-            if user == "y":
-                password = []
-                for i in range(0, 12):
-                    generator = random.choice(possible_combos)
-                    password.append(generator)
-                print("Your generated password is:", "".join(password))
-            elif user == "n":
-                print("Thank you for using our generator!")
-                is_running = False
-            else:
-                print("Invalid input")
-
+        self.password_entry.delete(0, END)
+        self.password_entry.insert(0, password)
 
 app = App()
 app.windows.mainloop()
